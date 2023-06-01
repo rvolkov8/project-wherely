@@ -1,0 +1,31 @@
+.header {
+  position: relative;
+  grid-area: 1 / 1 / 2 / 2;
+  background: linear-gradient(180deg, #283e4c 0%, #292e4c 100%);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 10px 180px;
+}
+
+.leaderboard-header-button,
+.about-header-button {
+  align-self: center;
+  font-weight: 300;
+  color: var(--white);
+  transition: font-weight 0.2s;
+}
+
+.leaderboard-header-button:hover,
+.about-header-button:hover {
+  font-weight: 700;
+}
+
+.leaderboard-header-button {
+  justify-self: flex-start;
+  text-align: start;
+}
+
+.about-header-button {
+  justify-self: flex-end;
+  text-align: end;
+}
