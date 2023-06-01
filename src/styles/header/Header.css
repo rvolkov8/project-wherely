@@ -1,5 +1,8 @@
 .header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   grid-area: 1 / 1 / 2 / 2;
   background: linear-gradient(180deg, #283e4c 0%, #292e4c 100%);
   display: grid;
