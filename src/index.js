@@ -4,8 +4,7 @@ import { HashRouter } from 'react-router-dom';
 
 import App from './components/App';
 
-import './index.css';
-import './App.css';
+import './styles/index.css';
 import './styles/header/Header.css';
 import './styles/header/Logo.css';
 import './styles/main/Main.css';
