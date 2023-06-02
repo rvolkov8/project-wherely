@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 const Levels = () => {
   return (
@@ -10,6 +10,7 @@ const Levels = () => {
         <div className="leaderboard-section-button">Leaderboard</div>
       </div>
       <div className="levels-grid"></div>
+
       <div className="bg-gradient"></div>
     </div>
   );
