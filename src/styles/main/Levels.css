@@ -1,0 +1,81 @@
+.levels {
+  position: relative;
+  width: 100vw;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px 180px;
+
+  background-image: radial-gradient(#292e4c 1px, transparent 1px),
+    radial-gradient(#292e4c 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  background-color: #151515;
+}
+
+.bg-gradient {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(20, 20, 20, 0.9);
+  background: -webkit-linear-gradient(
+    0deg,
+    rgba(20, 20, 20, 0.9) 0%,
+    rgba(20, 20, 20, 0) 100%
+  );
+  background: linear-gradient(
+    0deg,
+    rgba(20, 20, 20, 0.9) 0%,
+    rgba(20, 20, 20, 0) 100%
+  );
+  z-index: 0;
+}
+
+.leaderboard-section {
+  background-color: var(--bg-blue);
+  height: 80px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  z-index: 1;
+}
+
+.leaderboard-section-text,
+.leaderboard-section-button {
+  color: var(--white);
+  font-weight: 700;
+  font-size: 1.3rem;
+  cursor: default;
+}
+
+.leaderboard-section-text > span {
+  color: var(--red);
+}
+
+.leaderboard-section-button {
+  background-color: var(--red);
+  border-radius: 12px;
+  padding: 12px 45px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.leaderboard-section-button:hover {
+  background-color: var(--red-pressed);
+}
+
+.levels-grid {
+  align-self: center;
+  display: grid;
+  gap: 55px;
+  width: 1080px;
+  height: 650px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 300px);
+  z-index: 1;
+}
