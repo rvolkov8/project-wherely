@@ -19,14 +19,7 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
-export const storage = getStorage(firebaseConfig);
-
-// import { doc, getDoc } from 'firebase/firestore';
-
-// const docRef = doc(db, 'assets', 'n64');
-// const docSnap = await getDoc(docRef);
-// const data = docSnap.data();
-// const dataName = data['console-name'];
+export const storage = getStorage(app);
 
 // const n64ImgRef = ref(storage, 'n64/n64.jpg');
 // const downloadImage = async (ref) => {

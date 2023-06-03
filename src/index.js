@@ -12,6 +12,7 @@ import './styles/main/About.css';
 import './styles/main/CongratulationsPopUp.css';
 import './styles/main/Leaderboard.css';
 import './styles/main/Level.css';
+import './styles/main/LevelCard.css';
 import './styles/main/Levels.css';
 import './styles/main/Main.css';
 import './styles/main/NotFound.css';
@@ -20,9 +21,7 @@ import './styles/footer/Github.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <HashRouter>
-      <App />
-    </HashRouter>
-  </React.StrictMode>
+  <HashRouter>
+    <App />
+  </HashRouter>
 );

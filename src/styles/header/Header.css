@@ -8,6 +8,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   padding: 10px 180px;
+  z-index: 2;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 .leaderboard-header-button,
@@ -21,6 +23,7 @@
 .leaderboard-header-button:hover,
 .about-header-button:hover {
   font-weight: 700;
+  cursor: pointer;
 }
 
 .leaderboard-header-button {
