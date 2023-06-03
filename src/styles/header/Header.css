@@ -1,5 +1,6 @@
 .header {
   position: fixed;
+  min-height: 60px;
   top: 0;
   left: 0;
   right: 0;
@@ -13,7 +14,9 @@
 }
 
 .leaderboard-header-button,
-.about-header-button {
+.about-header-button,
+.header-back-to-level-button,
+.header-timer {
   align-self: center;
   font-weight: 300;
   color: var(--white);
@@ -21,17 +24,20 @@
 }
 
 .leaderboard-header-button:hover,
-.about-header-button:hover {
+.about-header-button:hover,
+.header-back-to-level-button:hover {
   font-weight: 700;
   cursor: pointer;
 }
 
-.leaderboard-header-button {
+.leaderboard-header-button,
+.header-back-to-level-button {
   justify-self: flex-start;
   text-align: start;
 }
 
-.about-header-button {
+.about-header-button,
+.header-timer {
   justify-self: flex-end;
   text-align: end;
 }

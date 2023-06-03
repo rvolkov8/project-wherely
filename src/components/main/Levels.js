@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { collection, getDocs } from 'firebase/firestore';
 import { ref, getDownloadURL, listAll } from 'firebase/storage';
@@ -6,9 +7,8 @@ import { ref, getDownloadURL, listAll } from 'firebase/storage';
 import { db, storage } from '../../firebase';
 
 import LevelCard from './LevelCard';
-import { Link } from 'react-router-dom';
 
-const Levels = () => {
+const Levels = ({ setCurrentLevel }) => {
   const [levelsData, setLevelsData] = useState([]);
 
   useEffect(() => {
@@ -29,15 +29,16 @@ const Levels = () => {
         });
       });
 
-      const storageRef = await ref(storage);
+      const storageRef = ref(storage);
       const storageList = await listAll(storageRef);
       storageList.prefixes.map(async (levelFolder) => {
-        const levelFolderRef = await ref(levelFolder);
+        const levelFolderRef = ref(levelFolder);
         const fileName = levelFolderRef._location.path_;
-        const levelImgRef = await ref(levelFolderRef, `${fileName}.jpg`);
+        const levelImgRef = ref(levelFolderRef, `${fileName}.jpg`);
         const levelImgURL = await getDownloadURL(levelImgRef);
         setLevelsData((prevState) => {
           const updatedState = [...prevState];
+          // eslint-disable-next-line array-callback-return
           updatedState.map((level) => {
             if (level.name.toLowerCase() === fileName) {
               level.url = levelImgURL;
@@ -46,8 +47,9 @@ const Levels = () => {
           return updatedState;
         });
 
-        const levelItemsRef = await ref(levelFolder, 'items');
+        const levelItemsRef = ref(levelFolder, 'items');
         const levelItemsList = await listAll(levelItemsRef);
+        // eslint-disable-next-line array-callback-return
         levelItemsList.items.map((item) => {
           const itemFileName = item._location.path_
             .split('/')
@@ -81,6 +83,7 @@ const Levels = () => {
         name={level.name}
         bgImageURL={level.url}
         items={level.items}
+        setCurrentLevel={setCurrentLevel}
       />
     );
   });

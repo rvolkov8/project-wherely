@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ItemRow from './ItemRow';
 
-const LevelCard = ({ name, bgImageURL, items }) => {
+const LevelCard = ({ name, bgImageURL, items, setCurrentLevel }) => {
   const [onHover, setOnHover] = useState(false);
+  const levelPath = `/level/${name.toLowerCase()}`;
 
   const renderItems = () => {
     return Object.keys(items).map((key) => {
@@ -21,7 +22,13 @@ const LevelCard = ({ name, bgImageURL, items }) => {
   };
 
   return (
-    <Link to={name.toLowerCase()} className="level-card">
+    <Link
+      to={levelPath}
+      onClick={() => {
+        setCurrentLevel(name.toLowerCase());
+      }}
+      className="level-card"
+    >
       <div className="border-hover"></div>
       <div
         style={{ backgroundImage: `url(${bgImageURL})` }}
