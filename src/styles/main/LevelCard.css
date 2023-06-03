@@ -1,0 +1,74 @@
+.level-card {
+  position: relative;
+  border-radius: 18px;
+}
+
+.border-hover {
+  border-radius: 18px;
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  border: 2px dashed var(--white);
+}
+
+.level-card-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 15px 35px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+.level-card-content:hover {
+  transform: translate(25px, -25px);
+}
+
+.bg-hover {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: linear-gradient(180deg, #283e4c 0%, #292e4c 100%);
+  border-radius: 18px;
+  z-index: 1;
+}
+
+.level-card-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  z-index: 2;
+  margin-bottom: 30px;
+}
+
+.level-card-item-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+  margin-bottom: 20px;
+}
+
+.level-card-item-row > img {
+  height: 50px;
+  justify-self: center;
+}
+
+.level-card-item-row > div {
+  color: var(--white);
+  font-weight: 300;
+  font-size: 1.1rem;
+}
