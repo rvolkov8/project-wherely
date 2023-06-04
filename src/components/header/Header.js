@@ -3,9 +3,8 @@ import Logo from './Logo';
 import SecondsCounter from '../main/SecondsCounter';
 import HeaderLevelItem from './HeaderLevelItem';
 
-const Header = ({ levelsData, currentPath }) => {
+const Header = ({ levelsData, currentLevel, currentPath }) => {
   const levelPathRegEx = /^\/level\/*/;
-  const currentLevel = currentPath.split('/').pop();
   const levelItems = levelsData.find(
     (levelData) => levelData.name.toLowerCase() === currentLevel
   )?.items;

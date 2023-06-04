@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
@@ -12,6 +12,7 @@ function App() {
   const location = useLocation();
   const currentPath = location.pathname;
   const [levelsData, setLevelsData] = useState([]);
+  const [currentLevel, setCurrentLevel] = useState(null);
 
   // Retrieve documents from the "assets" collection
   const assetsRef = collection(db, 'assets');
@@ -85,10 +86,29 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const currentLevel = window.localStorage.getItem('currentLevel');
+    if (currentLevel) {
+      setCurrentLevel(JSON.parse(currentLevel));
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('currentLevel', JSON.stringify(currentLevel));
+  }, [currentLevel]);
+
   return (
     <>
-      <Header levelsData={levelsData} currentPath={currentPath} />
-      <Main levelsData={levelsData} />
+      <Header
+        levelsData={levelsData}
+        currentLevel={currentLevel}
+        currentPath={currentPath}
+      />
+      <Main
+        levelsData={levelsData}
+        currentLevel={currentLevel}
+        setCurrentLevel={setCurrentLevel}
+      />
       <Footer />
     </>
   );
