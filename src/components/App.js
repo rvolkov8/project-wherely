@@ -82,11 +82,12 @@ function App() {
     return () => {
       setLevelsData([]);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <Header currentPath={currentPath} />
+      <Header levelsData={levelsData} currentPath={currentPath} />
       <Main levelsData={levelsData} />
       <Footer />
     </>

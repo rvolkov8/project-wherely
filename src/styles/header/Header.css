@@ -41,3 +41,32 @@
   justify-self: flex-end;
   text-align: end;
 }
+
+.header-timer {
+  cursor: default;
+}
+
+.header-level-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.header-level-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-level-item > img {
+  height: 35px;
+  width: auto;
+}
+
+.header-level-item > div {
+  color: var(--white);
+  font-weight: 300;
+  cursor: default;
+}
