@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Levels from './Levels';
 import Level from './Level';
 
-const Main = () => {
+const Main = ({ levelsData }) => {
   const [currentLevel, setCurrentLevel] = useState(null);
   const currentLevelPath = `/level/${currentLevel}`;
   return (
@@ -11,7 +11,9 @@ const Main = () => {
       <Routes>
         <Route
           path="/"
-          element={<Levels setCurrentLevel={setCurrentLevel} />}
+          element={
+            <Levels levelsData={levelsData} setCurrentLevel={setCurrentLevel} />
+          }
         />
         <Route
           path={currentLevelPath}
