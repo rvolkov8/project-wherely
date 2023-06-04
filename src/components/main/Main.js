@@ -1,10 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
 import Levels from './Levels';
 import Level from './Level';
 
-const Main = ({ levelsData }) => {
-  const [currentLevel, setCurrentLevel] = useState(null);
+const Main = ({ levelsData, currentLevel, setCurrentLevel }) => {
   const currentLevelPath = `/level/${currentLevel}`;
   return (
     <div className="main">
@@ -17,7 +15,9 @@ const Main = ({ levelsData }) => {
         />
         <Route
           path={currentLevelPath}
-          element={<Level currentLevel={currentLevel} />}
+          element={
+            <Level levelsData={levelsData} currentLevel={currentLevel} />
+          }
         />
       </Routes>
     </div>
