@@ -1,8 +1,10 @@
 .level {
   width: 100vw;
   height: fit-content;
+  cursor: crosshair;
 }
 
 .level-image {
   width: 100%;
+  cursor: url(../../assets/cursor.png) 40 40, auto;
 }
