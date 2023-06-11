@@ -13,10 +13,22 @@ function App() {
   const currentPath = location.pathname;
   const [levelsData, setLevelsData] = useState([]);
   const [currentLevel, setCurrentLevel] = useState(null);
+  const [currentLevelData, setCurrentLevelData] = useState(null);
+  const [currentLevelImg, setCurrentLevelImg] = useState(null);
+  const [originalLevelImgSize, setOriginalLevelImgSize] = useState(null);
+  const [currentLevelItems, setCurrentLevelItems] = useState(null);
+  const [originalClickCoords, setOriginalClickCoords] = useState([]);
+  const [guessShapeCoords, setGuessShapeCoords] = useState([]);
+  const [foundItemsCoords, setFoundItemsCoords] = useState([]);
+  const [foundItemsRelativeCoords, setFoundItemsRelativeCoords] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [showFoundAlert, setShowFoundAlert] = useState(false);
+  const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
 
   // Retrieve documents from the "assets" collection
   const assetsRef = collection(db, 'assets');
 
+  // This useEffect hook is used to fetch data from a Firestore database and update the storage URLs for assets.
   useEffect(() => {
     const updateStorageWithURLs = async () => {
       try {
@@ -67,6 +79,7 @@ function App() {
               name: doc.data()['console-name'],
               url: doc.data()['console-image-url'],
               items: doc.data()['items'],
+              size: doc.data()['size'],
             },
           ];
         });
@@ -86,6 +99,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Responsible for initializing the current level from local storage.
   useEffect(() => {
     const currentLevel = window.localStorage.getItem('currentLevel');
     if (currentLevel) {
@@ -93,9 +107,124 @@ function App() {
     }
   }, []);
 
+  // Responsible for updating the current level in local storage whenever it changes.
   useEffect(() => {
     window.localStorage.setItem('currentLevel', JSON.stringify(currentLevel));
   }, [currentLevel]);
+
+  // Helper function to calculate relative coordinates
+  const getRelativeCoords = (originalCoordsArr, originalImgSizeArr) => {
+    const [originalX, originalY] = originalCoordsArr;
+    const [originalWidth, originalHeight] = originalImgSizeArr;
+    const offsetX = (originalX / originalWidth) * windowWidth;
+    const offsetY = (originalY / originalHeight) * windowWidth;
+    return [offsetX, offsetY];
+  };
+
+  // Responsible for updating the window width state whenever the browser window is resized.
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Responsible for finding and setting the current level data based on the currentLevel state and levelsData array.
+  useEffect(() => {
+    const newCurrentLevelData = levelsData.find(
+      (level) => level.name.toLowerCase() === currentLevel
+    );
+    setCurrentLevelData(newCurrentLevelData);
+  }, [levelsData, currentLevel]);
+
+  // Responsible for updating various states based on the currentLevelData.
+  useEffect(() => {
+    if (currentLevelData) {
+      setCurrentLevelImg(currentLevelData.url);
+      setOriginalLevelImgSize(currentLevelData.size);
+      setCurrentLevelItems(currentLevelData.items);
+    }
+  }, [currentLevelData]);
+
+  // Responsible for updating the guess shape coordinates based on the currentLevelData and the window width.
+  useEffect(() => {
+    if (currentLevelData) {
+      setGuessShapeCoords(
+        getRelativeCoords(originalClickCoords, currentLevelData.size)
+      );
+    }
+  }, [windowWidth]);
+
+  // Responsible for updating the relative coordinates of found items based on the foundItemsCoords, originalLevelImgSize, and the window width.
+  useEffect(() => {
+    if (foundItemsCoords.length !== 0) {
+      const updatedRelativeCoords = [];
+      foundItemsCoords.forEach((coord) => {
+        updatedRelativeCoords.push(
+          getRelativeCoords(coord, originalLevelImgSize)
+        );
+      });
+      setFoundItemsRelativeCoords(updatedRelativeCoords);
+    }
+  }, [foundItemsCoords, windowWidth]);
+
+  const handleImageClick = (event) => {
+    // Update original click coords
+    const { offsetX, offsetY } = event.nativeEvent;
+    const { naturalWidth, naturalHeight } = event.target;
+
+    const originalX = (offsetX / windowWidth) * naturalWidth;
+    const originalY = (offsetY / windowWidth) * naturalHeight;
+
+    console.log(naturalWidth, naturalHeight);
+
+    setOriginalClickCoords([originalX, originalY]);
+
+    // Update the shapes state with the new shape
+    setGuessShapeCoords(
+      getRelativeCoords([originalX, originalY], [naturalWidth, naturalHeight])
+    );
+  };
+
+  const handleLevelItemClick = (name) => {
+    const levelMapName = name.toLowerCase().replace(/\s+/g, '-');
+    const originalItemCoords = currentLevelItems[levelMapName].coords;
+    const relativeItemCoords = getRelativeCoords(
+      originalItemCoords,
+      originalLevelImgSize
+    );
+    if (
+      guessShapeCoords[0] <= relativeItemCoords[0] + 50 &&
+      guessShapeCoords[0] >= relativeItemCoords[0] - 50 &&
+      guessShapeCoords[1] <= relativeItemCoords[1] + 50 &&
+      guessShapeCoords[1] >= relativeItemCoords[1] - 50
+    ) {
+      setCurrentLevelItems((prevState) => {
+        const updatedState = { ...prevState };
+        delete updatedState[levelMapName];
+        return updatedState;
+      });
+      setFoundItemsCoords((prevState) => {
+        return [...prevState, originalItemCoords];
+      });
+      setShowFoundAlert(true);
+      setTimeout(() => {
+        setShowFoundAlert(false);
+      }, 2500);
+      // Here to add functionality to check if player wins
+    } else {
+      setShowNotFoundAlert(true);
+      setTimeout(() => {
+        setShowNotFoundAlert(false);
+      }, 2500);
+    }
+    setGuessShapeCoords([]);
+  };
 
   return (
     <>
@@ -108,6 +237,17 @@ function App() {
         levelsData={levelsData}
         currentLevel={currentLevel}
         setCurrentLevel={setCurrentLevel}
+        handleImageClick={handleImageClick}
+        guessShapeCoords={guessShapeCoords}
+        setGuessShapeCoords={setGuessShapeCoords}
+        currentLevelImg={currentLevelImg}
+        currentLevelItems={currentLevelItems}
+        handleLevelItemClick={handleLevelItemClick}
+        foundItemsRelativeCoords={foundItemsRelativeCoords}
+        setFoundItemsRelativeCoords={setFoundItemsRelativeCoords}
+        setFoundItemsCoords={setFoundItemsCoords}
+        showFoundAlert={showFoundAlert}
+        showNotFoundAlert={showNotFoundAlert}
       />
       <Footer />
     </>
