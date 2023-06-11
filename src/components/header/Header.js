@@ -3,17 +3,14 @@ import Logo from './Logo';
 import SecondsCounter from '../main/SecondsCounter';
 import HeaderLevelItem from './HeaderLevelItem';
 
-const Header = ({ levelsData, currentLevel, currentPath }) => {
+const Header = ({ currentPath, currentLevelItems }) => {
   const levelPathRegEx = /^\/level\/*/;
-  const levelItems = levelsData.find(
-    (levelData) => levelData.name.toLowerCase() === currentLevel
-  )?.items;
 
   let levelItemsElements = [];
-  if (levelItems !== undefined && levelItems !== null) {
-    const levelItemsKeys = Object.keys(levelItems);
+  if (currentLevelItems) {
+    const levelItemsKeys = Object.keys(currentLevelItems);
     levelItemsElements = levelItemsKeys.map((key) => {
-      const item = levelItems[key];
+      const item = currentLevelItems[key];
       return (
         <HeaderLevelItem key={item.name} imgURL={item.url} name={item.name} />
       );
