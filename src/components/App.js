@@ -181,8 +181,6 @@ function App() {
     const originalX = (offsetX / windowWidth) * naturalWidth;
     const originalY = (offsetY / windowWidth) * naturalHeight;
 
-    console.log(naturalWidth, naturalHeight);
-
     setOriginalClickCoords([originalX, originalY]);
 
     // Update the shapes state with the new shape
@@ -228,11 +226,7 @@ function App() {
 
   return (
     <>
-      <Header
-        levelsData={levelsData}
-        currentLevel={currentLevel}
-        currentPath={currentPath}
-      />
+      <Header currentPath={currentPath} currentLevelItems={currentLevelItems} />
       <Main
         levelsData={levelsData}
         currentLevel={currentLevel}

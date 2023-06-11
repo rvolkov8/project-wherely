@@ -48,14 +48,13 @@
 
 .header-level-items {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 25px;
 }
 
 .header-level-item {
-  justify-self: center;
   display: flex;
   align-items: center;
   gap: 10px;
