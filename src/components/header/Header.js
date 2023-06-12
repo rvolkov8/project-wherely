@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
-import SecondsCounter from '../main/SecondsCounter';
+import SecondsCounter from './SecondsCounter';
 import HeaderLevelItem from './HeaderLevelItem';
 
-const Header = ({ currentPath, currentLevelItems }) => {
+const Header = ({
+  currentPath,
+  currentLevelItems,
+  seconds,
+  setSeconds,
+  levelIsCompleted,
+}) => {
   const levelPathRegEx = /^\/level\/*/;
 
   let levelItemsElements = [];
@@ -36,7 +42,11 @@ const Header = ({ currentPath, currentLevelItems }) => {
             Back to levels
           </Link>
           <div className="header-level-items">{levelItemsElements}</div>
-          <SecondsCounter />
+          <SecondsCounter
+            seconds={seconds}
+            setSeconds={setSeconds}
+            levelIsCompleted={levelIsCompleted}
+          />
         </>
       )}
     </div>
