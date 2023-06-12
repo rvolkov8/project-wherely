@@ -6,6 +6,7 @@ import {
   doc,
   updateDoc,
   getDoc,
+  onSnapshot,
 } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase';
@@ -202,6 +203,26 @@ function App() {
   const [levelIsCompleted, setLevelIsCompleted] = useState(false);
   const [winnerName, setWinnerName] = useState('');
 
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [selectedLeaderboardLevel, setSelectedLeaderboardLevel] =
+    useState('dreamcast');
+
+  useEffect(() => {
+    const leaderboardRef = collection(db, 'leaderboard');
+    const unsubscribe = onSnapshot(leaderboardRef, (snapshot) => {
+      const updatedData = {};
+
+      snapshot.forEach((doc) => {
+        const consoleName = doc.id;
+        updatedData[consoleName] = doc.data();
+      });
+
+      setLeaderboardData(updatedData);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   const handleWinnerNameChange = (e) => {
     setWinnerName(e.target.value);
   };
@@ -224,6 +245,10 @@ function App() {
     } catch (error) {
       console.error('Error retrieving level data:', error);
     }
+  };
+
+  const handleLeaderBoardLevelSelection = (levelName) => {
+    setSelectedLeaderboardLevel(levelName);
   };
 
   const handleLevelItemClick = (name) => {
@@ -303,6 +328,10 @@ function App() {
         setWinnerName={setWinnerName}
         handleWinnerNameChange={handleWinnerNameChange}
         updateLeaderBoard={updateLeaderBoard}
+        leaderboardData={leaderboardData}
+        selectedLeaderboardLevel={selectedLeaderboardLevel}
+        handleLeaderBoardLevelSelection={handleLeaderBoardLevelSelection}
+        setSelectedLeaderboardLevel={setSelectedLeaderboardLevel}
       />
       <Footer />
     </>

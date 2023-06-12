@@ -36,6 +36,14 @@ const Header = ({
           </Link>
         </>
       )}
+      {currentPath === '/leaderboard' && (
+        <>
+          <Link className="header-back-to-level-button" to="/">
+            Back to levels
+          </Link>
+          <Logo />
+        </>
+      )}
       {levelPathRegEx.test(currentPath) && (
         <>
           <Link className="header-back-to-level-button" to="/">
