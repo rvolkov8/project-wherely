@@ -17,6 +17,14 @@ const Main = ({
   setFoundItemsCoords,
   showFoundAlert,
   showNotFoundAlert,
+  setSeconds,
+  levelIsCompleted,
+  setLevelIsCompleted,
+  score,
+  winnerName,
+  setWinnerName,
+  handleWinnerNameChange,
+  updateLeaderBoard,
 }) => {
   const currentLevelPath = `/level/${currentLevel}`;
   return (
@@ -46,6 +54,14 @@ const Main = ({
               setFoundItemsCoords={setFoundItemsCoords}
               showFoundAlert={showFoundAlert}
               showNotFoundAlert={showNotFoundAlert}
+              setSeconds={setSeconds}
+              levelIsCompleted={levelIsCompleted}
+              setLevelIsCompleted={setLevelIsCompleted}
+              score={score}
+              winnerName={winnerName}
+              setWinnerName={setWinnerName}
+              handleWinnerNameChange={handleWinnerNameChange}
+              updateLeaderBoard={updateLeaderBoard}
             />
           }
         />

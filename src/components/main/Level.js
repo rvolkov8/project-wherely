@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import DropdownItems from './DropdownItems';
 import FoundItem from './foundItem';
+import CongratulationsPopUp from './CongratulationsPopUp';
 
 const Level = ({
   currentLevelImg,
@@ -17,6 +18,14 @@ const Level = ({
   setFoundItemsCoords,
   showFoundAlert,
   showNotFoundAlert,
+  setSeconds,
+  levelIsCompleted,
+  setLevelIsCompleted,
+  score,
+  winnerName,
+  setWinnerName,
+  handleWinnerNameChange,
+  updateLeaderBoard,
 }) => {
   useEffect(() => {
     return () => {
@@ -24,7 +33,10 @@ const Level = ({
       setGuessShapeCoords([]);
       setFoundItemsRelativeCoords([]);
       setFoundItemsCoords([]);
+      setSeconds(0);
+      setLevelIsCompleted(false);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const foundItems = foundItemsRelativeCoords.map((coord) => {
@@ -33,6 +45,15 @@ const Level = ({
 
   return (
     <div className="level">
+      <CongratulationsPopUp
+        levelIsCompleted={levelIsCompleted}
+        score={score}
+        setScore={setWinnerName}
+        winnerName={winnerName}
+        setWinnerName={setWinnerName}
+        handleWinnerNameChange={handleWinnerNameChange}
+        updateLeaderBoard={updateLeaderBoard}
+      />
       <img
         onClick={(e) => {
           handleImageClick(e);

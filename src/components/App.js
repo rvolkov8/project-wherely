@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  getDoc,
+} from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase';
 
@@ -24,6 +30,8 @@ function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showFoundAlert, setShowFoundAlert] = useState(false);
   const [showNotFoundAlert, setShowNotFoundAlert] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+  const [score, setScore] = useState(null);
 
   // Retrieve documents from the "assets" collection
   const assetsRef = collection(db, 'assets');
@@ -158,6 +166,7 @@ function App() {
         getRelativeCoords(originalClickCoords, currentLevelData.size)
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowWidth]);
 
   // Responsible for updating the relative coordinates of found items based on the foundItemsCoords, originalLevelImgSize, and the window width.
@@ -171,6 +180,7 @@ function App() {
       });
       setFoundItemsRelativeCoords(updatedRelativeCoords);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [foundItemsCoords, windowWidth]);
 
   const handleImageClick = (event) => {
@@ -189,6 +199,33 @@ function App() {
     );
   };
 
+  const [levelIsCompleted, setLevelIsCompleted] = useState(false);
+  const [winnerName, setWinnerName] = useState('');
+
+  const handleWinnerNameChange = (e) => {
+    setWinnerName(e.target.value);
+  };
+
+  const updateLeaderBoard = async () => {
+    try {
+      const levelDocRef = doc(db, 'leaderboard', currentLevel);
+      const levelDocSnap = await getDoc(levelDocRef);
+
+      if (levelDocSnap.exists()) {
+        const levelData = levelDocSnap.data();
+        const updatedLevelDoc = {
+          ...levelData,
+          [winnerName]: score,
+        };
+        await updateDoc(levelDocRef, updatedLevelDoc);
+      } else {
+        console.log('Level document does not exist');
+      }
+    } catch (error) {
+      console.error('Error retrieving level data:', error);
+    }
+  };
+
   const handleLevelItemClick = (name) => {
     const levelMapName = name.toLowerCase().replace(/\s+/g, '-');
     const originalItemCoords = currentLevelItems[levelMapName].coords;
@@ -205,6 +242,10 @@ function App() {
       setCurrentLevelItems((prevState) => {
         const updatedState = { ...prevState };
         delete updatedState[levelMapName];
+        // Check if the level is completed
+        if (Object.keys(updatedState).length === 0) {
+          setLevelIsCompleted(true);
+        }
         return updatedState;
       });
       setFoundItemsCoords((prevState) => {
@@ -214,7 +255,6 @@ function App() {
       setTimeout(() => {
         setShowFoundAlert(false);
       }, 2500);
-      // Here to add functionality to check if player wins
     } else {
       setShowNotFoundAlert(true);
       setTimeout(() => {
@@ -224,9 +264,22 @@ function App() {
     setGuessShapeCoords([]);
   };
 
+  useEffect(() => {
+    if (levelIsCompleted) {
+      setScore(seconds);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [levelIsCompleted]);
+
   return (
     <>
-      <Header currentPath={currentPath} currentLevelItems={currentLevelItems} />
+      <Header
+        currentPath={currentPath}
+        currentLevelItems={currentLevelItems}
+        seconds={seconds}
+        setSeconds={setSeconds}
+        levelIsCompleted={levelIsCompleted}
+      />
       <Main
         levelsData={levelsData}
         currentLevel={currentLevel}
@@ -242,6 +295,14 @@ function App() {
         setFoundItemsCoords={setFoundItemsCoords}
         showFoundAlert={showFoundAlert}
         showNotFoundAlert={showNotFoundAlert}
+        setSeconds={setSeconds}
+        levelIsCompleted={levelIsCompleted}
+        setLevelIsCompleted={setLevelIsCompleted}
+        score={score}
+        winnerName={winnerName}
+        setWinnerName={setWinnerName}
+        handleWinnerNameChange={handleWinnerNameChange}
+        updateLeaderBoard={updateLeaderBoard}
       />
       <Footer />
     </>
