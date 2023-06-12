@@ -7,12 +7,13 @@ import CongratulationsPopUp from './CongratulationsPopUp';
 
 const Level = ({
   currentLevelImg,
+  currentLevel,
+  setCurrentLevel,
   handleImageClick,
   currentLevelItems,
   guessShapeCoords,
   setGuessShapeCoords,
   handleLevelItemClick,
-  setCurrentLevel,
   foundItemsRelativeCoords,
   setFoundItemsRelativeCoords,
   setFoundItemsCoords,
@@ -26,6 +27,7 @@ const Level = ({
   setWinnerName,
   handleWinnerNameChange,
   updateLeaderBoard,
+  setSelectedLeaderboardLevel,
 }) => {
   useEffect(() => {
     return () => {
@@ -53,6 +55,8 @@ const Level = ({
         setWinnerName={setWinnerName}
         handleWinnerNameChange={handleWinnerNameChange}
         updateLeaderBoard={updateLeaderBoard}
+        setSelectedLeaderboardLevel={setSelectedLeaderboardLevel}
+        currentLevel={currentLevel}
       />
       <img
         onClick={(e) => {

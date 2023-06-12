@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Levels from './Levels';
 import Level from './Level';
+import Leaderboard from './Leaderboard';
 
 const Main = ({
   levelsData,
@@ -25,6 +26,10 @@ const Main = ({
   setWinnerName,
   handleWinnerNameChange,
   updateLeaderBoard,
+  leaderboardData,
+  selectedLeaderboardLevel,
+  handleLeaderBoardLevelSelection,
+  setSelectedLeaderboardLevel,
 }) => {
   const currentLevelPath = `/level/${currentLevel}`;
   return (
@@ -42,13 +47,13 @@ const Main = ({
             <Level
               levelsData={levelsData}
               currentLevel={currentLevel}
+              setCurrentLevel={setCurrentLevel}
               handleImageClick={handleImageClick}
               guessShapeCoords={guessShapeCoords}
               setGuessShapeCoords={setGuessShapeCoords}
               currentLevelImg={currentLevelImg}
               currentLevelItems={currentLevelItems}
               handleLevelItemClick={handleLevelItemClick}
-              setCurrentLevel={setCurrentLevel}
               foundItemsRelativeCoords={foundItemsRelativeCoords}
               setFoundItemsRelativeCoords={setFoundItemsRelativeCoords}
               setFoundItemsCoords={setFoundItemsCoords}
@@ -62,6 +67,18 @@ const Main = ({
               setWinnerName={setWinnerName}
               handleWinnerNameChange={handleWinnerNameChange}
               updateLeaderBoard={updateLeaderBoard}
+              setSelectedLeaderboardLevel={setSelectedLeaderboardLevel}
+            />
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <Leaderboard
+              leaderboardData={leaderboardData}
+              selectedLeaderboardLevel={selectedLeaderboardLevel}
+              handleLeaderBoardLevelSelection={handleLeaderBoardLevelSelection}
+              setCurrentLevel={setCurrentLevel}
             />
           }
         />

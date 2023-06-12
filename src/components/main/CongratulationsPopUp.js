@@ -8,6 +8,8 @@ const CongratulationsPopUp = ({
   setWinnerName,
   handleWinnerNameChange,
   updateLeaderBoard,
+  setSelectedLeaderboardLevel,
+  currentLevel,
 }) => {
   useEffect(() => {
     return () => {
@@ -43,7 +45,10 @@ const CongratulationsPopUp = ({
             <button
               className="congratulations-back-to-levels-button "
               type="button"
-              onClick={updateLeaderBoard}
+              onClick={() => {
+                updateLeaderBoard();
+                setSelectedLeaderboardLevel(currentLevel);
+              }}
             >
               Go back to levels
             </button>
@@ -52,7 +57,10 @@ const CongratulationsPopUp = ({
             <button
               className="congratulations-leaderboard-button"
               type="button"
-              onClick={updateLeaderBoard}
+              onClick={() => {
+                updateLeaderBoard();
+                setSelectedLeaderboardLevel(currentLevel);
+              }}
             >
               Leaderboard
             </button>
