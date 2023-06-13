@@ -31,7 +31,7 @@ const Header = ({
             Leaderboard
           </Link>
           <Logo />
-          <Link className="about-header-button" to="/leaderboard">
+          <Link className="about-header-button" to="/about">
             About
           </Link>
         </>
@@ -42,6 +42,17 @@ const Header = ({
             Back to levels
           </Link>
           <Logo />
+        </>
+      )}
+      {currentPath === '/about' && (
+        <>
+          <Link className="header-back-to-level-button" to="/">
+            Back to levels
+          </Link>
+          <Logo />
+          <Link className="leaderboard-header-button-about" to="/leaderboard">
+            Leaderboard
+          </Link>
         </>
       )}
       {levelPathRegEx.test(currentPath) && (

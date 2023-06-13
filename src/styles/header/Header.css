@@ -36,6 +36,20 @@
   text-align: start;
 }
 
+.leaderboard-header-button-about {
+  font-weight: 300;
+  color: var(--white);
+  transition: font-weight 0.2s;
+  justify-self: flex-end;
+  text-align: end;
+  align-self: center;
+}
+
+.leaderboard-header-button-about:hover {
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .about-header-button,
 .header-timer {
   justify-self: flex-end;

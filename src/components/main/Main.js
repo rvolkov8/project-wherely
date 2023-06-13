@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Levels from './Levels';
 import Level from './Level';
 import Leaderboard from './Leaderboard';
+import About from './About';
 
 const Main = ({
   levelsData,
@@ -82,6 +83,7 @@ const Main = ({
             />
           }
         />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );
