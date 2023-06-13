@@ -3,6 +3,7 @@ import Levels from './Levels';
 import Level from './Level';
 import Leaderboard from './Leaderboard';
 import About from './About';
+import NotFound from './NotFound';
 
 const Main = ({
   levelsData,
@@ -84,6 +85,7 @@ const Main = ({
           }
         />
         <Route path="/about" element={<About />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
   );
