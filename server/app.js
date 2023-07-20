@@ -1,12 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+require('dotenv').config();
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var apiRouter = require('./routes/api');
+const apiRouter = require('./routes/api');
 
-var app = express();
+// mongodb config
+require('./mongodbConfig');
+
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
