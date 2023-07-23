@@ -6,9 +6,9 @@ const Levels = ({ levelsData, setCurrentLevel }) => {
   const levelCards = levelsData.map((level) => {
     return (
       <LevelCard
-        key={level.name}
-        name={level.name}
-        bgImageURL={level.url}
+        key={level._id}
+        consoleName={level['console-name']}
+        consoleImgFilename={level['console-filename']}
         items={level.items}
         setCurrentLevel={setCurrentLevel}
       />

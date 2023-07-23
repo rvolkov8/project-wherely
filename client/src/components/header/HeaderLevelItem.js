@@ -1,7 +1,8 @@
-const HeaderLevelItem = ({ imgURL, name }) => {
+const HeaderLevelItem = ({ currentLevel, imgFilename, name }) => {
+  const imgURI = `${process.env.REACT_APP_WHERELY_STATIC}/images/assets/${currentLevel}/items/${imgFilename}`;
   return (
     <div className="header-level-item">
-      <img src={imgURL} alt="Item" />
+      <img src={imgURI} alt="Item" />
       <div>{name}</div>
     </div>
   );

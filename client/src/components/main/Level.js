@@ -78,6 +78,7 @@ const Level = ({
           ></div>
           <DropdownItems
             guessShapeCoords={guessShapeCoords}
+            currentLevel={currentLevel}
             currentLevelItems={currentLevelItems}
             handleLevelItemClick={handleLevelItemClick}
           />

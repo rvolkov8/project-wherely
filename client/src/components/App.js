@@ -1,15 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  getDoc,
-  onSnapshot,
-} from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../firebase';
 
 import Header from './header/Header';
 import Footer from './footer/Footer';
@@ -34,78 +24,20 @@ function App() {
   const [seconds, setSeconds] = useState(0);
   const [score, setScore] = useState(null);
 
-  // Retrieve documents from the "assets" collection
-  const assetsRef = collection(db, 'assets');
-
-  // This useEffect hook is used to fetch data from a Firestore database and update the storage URLs for assets.
+  // Responsible for fetching levels data
   useEffect(() => {
-    const updateStorageWithURLs = async () => {
+    const fetchLevelsData = async () => {
       try {
-        const assetsSnapshot = await getDocs(assetsRef);
-
-        assetsSnapshot.forEach(async (document) => {
-          const data = document.data();
-          const consoleName = data['console-name'];
-          const consoleItems = data.items;
-
-          // Updating console and items images urls
-          const consoleImgPath = `${consoleName.toLowerCase()}/${consoleName.toLowerCase()}.jpg`;
-          const consoleImgStorageRef = ref(storage, consoleImgPath);
-          const consoleImageURL = await getDownloadURL(consoleImgStorageRef);
-          const consoleDocRef = doc(db, 'assets', consoleName.toLowerCase());
-
-          for (const itemMapName of Object.keys(consoleItems)) {
-            const itemImgPath = `${consoleName.toLowerCase()}/items/${itemMapName}.png`;
-            const itemImgRef = ref(storage, itemImgPath);
-            const itemImgURL = await getDownloadURL(itemImgRef);
-            const updatedDoc = {
-              ...data,
-              'console-image-url': consoleImageURL,
-              items: {
-                ...consoleItems,
-                [`${itemMapName}`]: {
-                  ...consoleItems[itemMapName],
-                  url: itemImgURL,
-                },
-              },
-            };
-            await updateDoc(consoleDocRef, updatedDoc);
-          }
+        const res = await fetch(`${process.env.REACT_APP_WHERELY_API}/levels`, {
+          mode: 'cors',
         });
-      } catch (error) {
-        console.error('Firestore update error:', error);
+        const levels = await res.json();
+        setLevelsData(levels);
+      } catch (err) {
+        console.error('Error occurred while fetching levels data: ' + err);
       }
     };
-
-    const fetchAssets = async () => {
-      const assetsSnapshot = await getDocs(assetsRef);
-
-      assetsSnapshot.forEach((doc) => {
-        setLevelsData((prevState) => {
-          return [
-            ...prevState,
-            {
-              name: doc.data()['console-name'],
-              url: doc.data()['console-image-url'],
-              items: doc.data()['items'],
-              size: doc.data()['size'],
-            },
-          ];
-        });
-      });
-    };
-
-    const loadData = async () => {
-      await updateStorageWithURLs();
-      await fetchAssets();
-    };
-
-    loadData();
-
-    return () => {
-      setLevelsData([]);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchLevelsData();
   }, []);
 
   // Responsible for initializing the current level from local storage.
@@ -146,7 +78,7 @@ function App() {
   // Responsible for finding and setting the current level data based on the currentLevel state and levelsData array.
   useEffect(() => {
     const newCurrentLevelData = levelsData.find(
-      (level) => level.name.toLowerCase() === currentLevel
+      (level) => level['console-name'] === currentLevel
     );
     setCurrentLevelData(newCurrentLevelData);
   }, [levelsData, currentLevel]);
@@ -154,7 +86,8 @@ function App() {
   // Responsible for updating various states based on the currentLevelData.
   useEffect(() => {
     if (currentLevelData) {
-      setCurrentLevelImg(currentLevelData.url);
+      const levelImgURI = `${process.env.REACT_APP_WHERELY_STATIC}/images/assets/${currentLevelData['console-name']}/${currentLevelData['console-filename']}`;
+      setCurrentLevelImg(levelImgURI);
       setOriginalLevelImgSize(currentLevelData.size);
       setCurrentLevelItems(currentLevelData.items);
     }
@@ -203,48 +136,53 @@ function App() {
   const [levelIsCompleted, setLevelIsCompleted] = useState(false);
   const [winnerName, setWinnerName] = useState('');
 
-  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [leaderboardsData, setLeaderboardsData] = useState([]);
   const [selectedLeaderboardLevel, setSelectedLeaderboardLevel] =
     useState('dreamcast');
 
+  const fetchLeaderboardsData = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_WHERELY_API}/leaderboards`,
+        {
+          mode: 'cors',
+        }
+      );
+      const leaderboards = await res.json();
+      setLeaderboardsData(leaderboards);
+    } catch (err) {
+      console.error('Error occurred while fetching leaderboards data: ' + err);
+    }
+  };
+
   useEffect(() => {
-    const leaderboardRef = collection(db, 'leaderboard');
-    const unsubscribe = onSnapshot(leaderboardRef, (snapshot) => {
-      const updatedData = {};
-
-      snapshot.forEach((doc) => {
-        const consoleName = doc.id;
-        updatedData[consoleName] = doc.data();
-      });
-
-      setLeaderboardData(updatedData);
-    });
-
-    return () => unsubscribe();
+    fetchLeaderboardsData();
   }, []);
 
   const handleWinnerNameChange = (e) => {
     setWinnerName(e.target.value);
   };
 
-  const updateLeaderBoard = async () => {
+  const updateLeaderBoard = async (winnerName, score) => {
     try {
-      const levelDocRef = doc(db, 'leaderboard', currentLevel);
-      const levelDocSnap = await getDoc(levelDocRef);
-
-      if (levelDocSnap.exists()) {
-        const levelData = levelDocSnap.data();
-        const updatedLevelDoc = {
-          ...levelData,
-          [winnerName]: score,
-        };
-        await updateDoc(levelDocRef, updatedLevelDoc);
-      } else {
-        console.log('Level document does not exist');
+      const reqURI = `${process.env.REACT_APP_WHERELY_API}/leaderboards/${currentLevel}`;
+      const res = await fetch(reqURI, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json', // Set the content type to JSON
+        },
+        body: JSON.stringify({
+          winnerName: winnerName.trim(),
+          score,
+        }),
+      });
+      if (!res.ok) {
+        throw new Error('Failed to update leaderboards data', res.status);
       }
-    } catch (error) {
-      console.error('Error retrieving level data:', error);
+    } catch (err) {
+      console.error('Failed updating leaderboard data: ', err);
     }
+    await fetchLeaderboardsData();
   };
 
   const handleLeaderBoardLevelSelection = (levelName) => {
@@ -300,7 +238,8 @@ function App() {
     <>
       <Header
         currentPath={currentPath}
-        currentLevelItems={currentLevelItems}
+        currentLevel={currentLevel}
+        currentLevelData={currentLevelData}
         seconds={seconds}
         setSeconds={setSeconds}
         levelIsCompleted={levelIsCompleted}
@@ -328,7 +267,7 @@ function App() {
         setWinnerName={setWinnerName}
         handleWinnerNameChange={handleWinnerNameChange}
         updateLeaderBoard={updateLeaderBoard}
-        leaderboardData={leaderboardData}
+        leaderboardsData={leaderboardsData}
         selectedLeaderboardLevel={selectedLeaderboardLevel}
         handleLeaderBoardLevelSelection={handleLeaderBoardLevelSelection}
         setSelectedLeaderboardLevel={setSelectedLeaderboardLevel}

@@ -1,4 +1,10 @@
-const DropdownItem = ({ url, name, handleLevelItemClick }) => {
+const DropdownItem = ({
+  currentLevel,
+  imgFilename,
+  name,
+  handleLevelItemClick,
+}) => {
+  const imgURI = `${process.env.REACT_APP_WHERELY_STATIC}/images/assets/${currentLevel}/items/${imgFilename}`;
   return (
     <div
       onClick={() => {
@@ -6,7 +12,7 @@ const DropdownItem = ({ url, name, handleLevelItemClick }) => {
       }}
       className="dropdown-item"
     >
-      <img src={url} alt="item" />
+      <img src={imgURI} alt="item" />
       <div>{name}</div>
     </div>
   );

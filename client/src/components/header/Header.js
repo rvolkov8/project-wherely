@@ -5,7 +5,8 @@ import HeaderLevelItem from './HeaderLevelItem';
 
 const Header = ({
   currentPath,
-  currentLevelItems,
+  currentLevel,
+  currentLevelData,
   seconds,
   setSeconds,
   levelIsCompleted,
@@ -13,12 +14,18 @@ const Header = ({
   const levelPathRegEx = /^\/level\/*/;
 
   let levelItemsElements = [];
-  if (currentLevelItems) {
+  if (currentLevelData) {
+    const currentLevelItems = currentLevelData.items;
     const levelItemsKeys = Object.keys(currentLevelItems);
     levelItemsElements = levelItemsKeys.map((key) => {
       const item = currentLevelItems[key];
       return (
-        <HeaderLevelItem key={item.name} imgURL={item.url} name={item.name} />
+        <HeaderLevelItem
+          key={item.name}
+          currentLevel={currentLevel}
+          imgFilename={item.filename}
+          name={item.name}
+        />
       );
     });
   }

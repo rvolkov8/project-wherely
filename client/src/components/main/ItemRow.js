@@ -1,7 +1,8 @@
-const ItemRow = ({ url, name }) => {
+const ItemRow = ({ consoleName, filename, name }) => {
+  const itemImgURI = `${process.env.REACT_APP_WHERELY_STATIC}/images/assets/${consoleName}/items/${filename}`;
   return (
     <div className="level-card-item-row">
-      <img src={url} alt="Item" />
+      <img src={itemImgURI} alt="Item" />
       <div>{name}</div>
     </div>
   );

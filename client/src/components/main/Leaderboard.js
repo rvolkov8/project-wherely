@@ -1,45 +1,44 @@
 import { Link } from 'react-router-dom';
 
 const Leaderboard = ({
-  leaderboardData,
+  leaderboardsData,
   selectedLeaderboardLevel,
   handleLeaderBoardLevelSelection,
   setCurrentLevel,
 }) => {
-  const consoleNames = Object.keys(leaderboardData).map((name) =>
-    name.toUpperCase()
-  );
-  const levelElements = consoleNames.map((consoleName) => {
+  const levelElements = leaderboardsData.map((leaderboard) => {
     return (
       <div
         onClick={() => {
-          handleLeaderBoardLevelSelection(consoleName.toLowerCase());
+          handleLeaderBoardLevelSelection(leaderboard['level-name']);
         }}
-        key={consoleName}
+        key={leaderboard['level-name']}
         className={`leaderboard-levels-grid-item ${
-          selectedLeaderboardLevel === consoleName.toLowerCase() && 'selected'
+          selectedLeaderboardLevel === leaderboard['level-name'] && 'selected'
         }`}
       >
-        {consoleName}
+        {leaderboard['level-name'].toUpperCase()}
       </div>
     );
   });
 
-  const selectedLevelScores =
-    leaderboardData[selectedLeaderboardLevel] &&
-    leaderboardData[selectedLeaderboardLevel];
+  const selectedLevelData =
+    leaderboardsData &&
+    leaderboardsData.find((leaderboard) => {
+      return leaderboard['level-name'] === selectedLeaderboardLevel;
+    });
+  const selectedLevelScores = selectedLevelData && selectedLevelData.scores;
+
   const scoreElements =
     selectedLevelScores &&
-    Object.keys(selectedLevelScores)
-      .sort((a, b) => selectedLevelScores[a] - selectedLevelScores[b])
-      .map((name) => {
-        return (
-          <div key={name} className="score-element">
-            <div className="score-name">{name}</div>
-            <div className="score-time">{selectedLevelScores[name]}</div>
-          </div>
-        );
-      });
+    selectedLevelScores.map((score) => {
+      return (
+        <div key={score.name} className="score-element">
+          <div className="score-name">{score.name}</div>
+          <div className="score-time">{score.score}</div>
+        </div>
+      );
+    });
 
   const levelPath = `/level/${selectedLeaderboardLevel}`;
   return (

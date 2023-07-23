@@ -28,7 +28,7 @@ const Main = ({
   setWinnerName,
   handleWinnerNameChange,
   updateLeaderBoard,
-  leaderboardData,
+  leaderboardsData,
   selectedLeaderboardLevel,
   handleLeaderBoardLevelSelection,
   setSelectedLeaderboardLevel,
@@ -77,7 +77,7 @@ const Main = ({
           path="/leaderboard"
           element={
             <Leaderboard
-              leaderboardData={leaderboardData}
+              leaderboardsData={leaderboardsData}
               selectedLeaderboardLevel={selectedLeaderboardLevel}
               handleLeaderBoardLevelSelection={handleLeaderBoardLevelSelection}
               setCurrentLevel={setCurrentLevel}

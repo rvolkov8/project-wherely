@@ -13,7 +13,7 @@ const NotFound = () => {
       <div className="not-found-heading">
         It seems like the page you're looking for cannot be found.
       </div>
-      <div class="progress"></div>
+      <div className="progress"></div>
     </div>
   );
 };

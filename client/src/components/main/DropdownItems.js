@@ -2,6 +2,7 @@ import DropdownItem from './DropdownItem';
 
 const DropdownItems = ({
   guessShapeCoords,
+  currentLevel,
   currentLevelItems,
   handleLevelItemClick,
 }) => {
@@ -11,8 +12,9 @@ const DropdownItems = ({
     return (
       <DropdownItem
         key={item.name}
+        currentLevel={currentLevel}
         handleLevelItemClick={handleLevelItemClick}
-        url={item.url}
+        imgFilename={item.filename}
         name={item.name}
       />
     );

@@ -17,6 +17,12 @@ const CongratulationsPopUp = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleLeaderboardButtonClick = async () => {
+    await updateLeaderBoard(winnerName, score);
+    setSelectedLeaderboardLevel(currentLevel);
+  };
+
   return (
     <>
       <div className={`congratulations-bg ${levelIsCompleted && 'show'}`}></div>
@@ -38,17 +44,14 @@ const CongratulationsPopUp = ({
           onChange={(e) => {
             handleWinnerNameChange(e);
           }}
-          {...(winnerName && { value: winnerName })}
+          {...(winnerName ? { value: winnerName } : { value: '' })}
         />
         <div className={`congratulations-buttons ${!winnerName && 'disabled'}`}>
           <Link to="/" replace>
             <button
               className="congratulations-back-to-levels-button "
               type="button"
-              onClick={() => {
-                updateLeaderBoard();
-                setSelectedLeaderboardLevel(currentLevel);
-              }}
+              onClick={handleLeaderboardButtonClick}
             >
               Go back to levels
             </button>
@@ -57,10 +60,7 @@ const CongratulationsPopUp = ({
             <button
               className="congratulations-leaderboard-button"
               type="button"
-              onClick={() => {
-                updateLeaderBoard();
-                setSelectedLeaderboardLevel(currentLevel);
-              }}
+              onClick={handleLeaderboardButtonClick}
             >
               Leaderboard
             </button>
