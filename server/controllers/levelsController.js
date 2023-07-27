@@ -1,4 +1,5 @@
 const Asset = require('../models/asset');
+const leaderboard = require('../models/leaderboard');
 const Leaderboard = require('../models/leaderboard');
 const { validationResult } = require('express-validator');
 
@@ -17,6 +18,9 @@ exports.getLevelsData = async (req, res) => {
 exports.getLeaderboardsData = async (req, res) => {
   try {
     const data = await Leaderboard.find().exec();
+    data.map((leaderboard) => {
+      leaderboard.scores.sort((a, b) => a.score - b.score);
+    });
     res.status(200).json(data);
   } catch (err) {
     console.error('Error while fetching leaderboards data:', err);
