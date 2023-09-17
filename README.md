@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+<h1>Wherely (Photo Tagging App)</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h2>Description</h2>
 
-## Available Scripts
+Wherely is a web application that challenges users to find hidden objects within images inspired by classic video game consoles. It provides an engaging and interactive experience for users, combining image recognition, gaming elements, and leaderboards.
 
-In the project directory, you can run:
+<h2>Built with: </h2>
+<ul>
+    <li>
+      <strong>Frontend:</strong>
+      <ul>
+        <li>React.js: A popular JavaScript library for building user interfaces.</li>
+        <li>React Router: Used for navigation and routing within the web app.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Backend:</strong>
+      <ul>
+        <li>Node.js: A powerful JavaScript runtime that allows for server-side scripting, facilitating efficient and scalable web application development.</li>
+        <li>Express.js: A web application framework for Node.js.</li>
+        <li>MongoDB: A NoSQL database used to store game assets and leaderboard data.</li>
+        <li>Mongoose: An elegant MongoDB object modeling tool for Node.js.</li>
+      </ul>
+    </li>
+  </ul>
 
-### `npm start`
+<h2>Key features</h2>
+<ul>
+    <li><strong>Interactive Gameplay:</strong> Users can click on images to search for hidden objects, making the experience interactive and engaging.</li>
+    <li><strong>Leaderboards:</strong> Wherely features a global leaderboard system that tracks the fastest completion times for each level.</li>
+    <li><strong>Multi-level Challenge:</strong> The application offers multiple levels based on classic video game consoles, each with its set of hidden objects.</li>
+    <li><strong>API Integration:</strong> The app integrates with its api for storage and data retrieval.</li>
+    <li><strong>Database Storage:</strong> Game assets and leaderboard data are stored in a MongoDB database, ensuring data persistence.</li>
+  </ul>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<h3><a href='https://wherely.onrender.com/' target="_blank">Link for live preview</a></h3>
